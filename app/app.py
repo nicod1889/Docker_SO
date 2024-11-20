@@ -24,20 +24,6 @@ def create_game():
     result = db.games.insert_one(game)
     return jsonify({"id": id, **game}), 201
 
-@app.route('/games/<id>', methods=['PUT'])
-def update_game(id):
-    data = request.json
-    updated_game = {
-        "name": data.get('name'),
-        "players": data.get('players'),
-        "ageLimit": data.get('ageLimit'),
-        "originCountry": data.get('originCountry'),
-        "cost": data.get('cost')
-    }
-    db.games.update_one({"_id": ObjectId(id)}, {"$set": updated_game})
-    return jsonify({"id": id, **updated_game}), 200
-
-    
 
 @app.route('/games', methods=['GET'])
 def get_games():
@@ -55,18 +41,18 @@ def get_games():
     return jsonify(result), 200
 
 
-@app.route('/games/<id>', methods=['PUT'])
-def update_game(id):
-    data = request.json
-    updated_game = {
-        "name": data.get('name'),
-        "players": data.get('players'),
-        "ageLimit": data.get('ageLimit'),
-        "originCountry": data.get('originCountry'),
-        "cost": data.get('cost')
-    }
-    db.games.update_one({"_id": ObjectId(id)}, {"$set": updated_game})
-    return jsonify({"id": id, **updated_game}), 200
+#@app.route('/games/<id>', methods=['PUT'])
+#def update_game(id):
+#    data = request.json
+#    updated_game = {
+#        "name": data.get('name'),
+#        "players": data.get('players'),
+#        "ageLimit": data.get('ageLimit'),
+#        "originCountry": data.get('originCountry'),
+#        "cost": data.get('cost')
+#    }
+#    db.games.update_one({"_id": ObjectId(id)}, {"$set": updated_game})
+#    return jsonify({"id": id, **updated_game}), 200
 
 
 @app.route('/games/<id>', methods=['DELETE'])

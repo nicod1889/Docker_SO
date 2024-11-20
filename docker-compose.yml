@@ -5,6 +5,7 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
+    container_name: app
     ports:
       - "5000:5000" # Puerto para acceder a la aplicación Flask
     environment:
