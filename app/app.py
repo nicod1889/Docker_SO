@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from bson import ObjectId
 import os
 
 app = Flask(__name__)
@@ -10,7 +11,18 @@ app.config["MONGO_URI"] = os.getenv("MONGO_URI", "mongodb://root:password@mongo:
 mongo = PyMongo(app)
 db = mongo.db
 
-# Modelo de datos: Juegos de mesa
+
+# Página principal
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/juegos', methods=['GET'])
+def juegos():
+    games = db.games.find()
+    return render_template('juegos.html', games=games)
+
+
 @app.route('/games', methods=['POST'])
 def create_game():
     data = request.json
@@ -22,7 +34,7 @@ def create_game():
         "cost": data.get('cost', 0.0)
     }
     result = db.games.insert_one(game)
-    return jsonify({"id": id, **game}), 201
+    return jsonify({"id": id, **updated_game}), 200
 
 
 @app.route('/games', methods=['GET'])
@@ -41,24 +53,29 @@ def get_games():
     return jsonify(result), 200
 
 
-#@app.route('/games/<id>', methods=['PUT'])
-#def update_game(id):
-#    data = request.json
-#    updated_game = {
-#        "name": data.get('name'),
-#        "players": data.get('players'),
-#        "ageLimit": data.get('ageLimit'),
-#        "originCountry": data.get('originCountry'),
-#        "cost": data.get('cost')
-#    }
-#    db.games.update_one({"_id": ObjectId(id)}, {"$set": updated_game})
-#    return jsonify({"id": id, **updated_game}), 200
+@app.route('/games/<id>', methods=['PUT'])
+def update_game(id):
+    data = request.json
+    updated_game = {
+        "name": data.get('name'),
+        "players": data.get('players'),
+        "ageLimit": data.get('ageLimit'),
+        "originCountry": data.get('originCountry'),
+        "cost": data.get('cost')
+    }
+    db.games.update_one({"_id": ObjectId(id)}, {"$set": updated_game})
+    return jsonify({"id": id, **updated_game}), 200
 
 
 @app.route('/games/<id>', methods=['DELETE'])
 def delete_game(id):
-    db.games.delete_one({"_id": ObjectId(id)})
-    return jsonify({"id": id, "message": "Juego eliminado"}), 204
+    try:
+        result = db.games.delete_one({'_id': ObjectId(id)})
+        if result.deleted_count == 0:
+            return jsonify({"error": "Juego no encontrado"}), 404
+        return jsonify({"message": "Juego eliminado exitosamente"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':
