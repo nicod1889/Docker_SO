@@ -27,6 +27,7 @@
     <table>
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Nombre</th>
                 <th>Jugadores (Min - Max)</th>
                 <th>Edad mínima</th>
@@ -38,6 +39,7 @@
         <tbody>
             {% for game in games %}
             <tr>
+                <td>{{ game._id }}</td>
                 <td>{{ game.name }}</td>
                 <td>{{ game.players.min }} - {{ game.players.max }}</td>
                 <td>{{ game.ageLimit }}</td>
@@ -63,6 +65,9 @@
     <div id="dialog-create" class="dialog">
         <h1>Crear juego de mesa</h1>
         <div class="form-container">
+            <label for="name">Id</label>
+            <input type="text" id="id">
+
             <label for="name">Nombre</label>
             <input type="text" id="name">
     
@@ -94,6 +99,9 @@
     <div id="dialog-edit" class="dialog">
         <h1>Editar juego de mesa</h1>
         <div class="form-container">
+            <label for="id">Id</label>
+            <input type="text" id="edit-id">
+
             <label for="name">Nombre</label>
             <input type="text" id="edit-name">
     
@@ -145,7 +153,7 @@
         // EDITAR JUEGO DE MESA //
         function openDialogEdit() {
 
-            document.getElementById('edit-name').value = "Hola";
+            document.getElementById('edit-name').value = "Juego";
 
             document.getElementById('dialog-edit').style.display = 'block';
             document.getElementById('overlay-edit').style.display = 'block';
@@ -166,6 +174,7 @@
 
         function createGame() {
             const gameData = {
+            id: document.getElementById('id').value,
             name: document.getElementById('name').value,
             originCountry: document.getElementById('pais').value,
             players: {
@@ -186,6 +195,7 @@
                 location.reload();
             })
             .catch(error => {
+                alert("ID REPITIDO");
                 console.error('Error al crear el juego:', error);
             });
         }

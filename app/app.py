@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, render_template
 from flask_pymongo import PyMongo
-from bson.objectid import ObjectId
 from bson import ObjectId
 import os
 
@@ -23,18 +22,33 @@ def juegos():
     return render_template('juegos.html', games=games)
 
 
+#@app.route('/games', methods=['POST'])
+#def create_game():
+#    data = request.json
+#    game = {
+#        "name": data['name'],
+#        "players": data.get('players', {"min": 0, "max": 0}),
+#        "ageLimit": data.get('ageLimit', 0),
+#        "originCountry": data.get('originCountry', ""),
+#        "cost": data.get('cost', 0.0)
+#    }
+#    result = db.games.insert_one(game)
+#    game_id = str(result.inserted_id)
+#    return jsonify({"id": game_id, **game}), 200
 @app.route('/games', methods=['POST'])
 def create_game():
-    data = request.json
-    game = {
-        "name": data['name'],
-        "players": data.get('players', {"min": 0, "max": 0}),
-        "ageLimit": data.get('ageLimit', 0),
-        "originCountry": data.get('originCountry', ""),
-        "cost": data.get('cost', 0.0)
+    data = request.get_json()
+    new_game = {
+        '_id': data['id'],
+        'name': data['name'],
+        'players': data['players'],
+        'ageLimit': data['ageLimit'],
+        'originCountry': data['originCountry'],
+        'cost': data['cost']
     }
-    result = db.games.insert_one(game)
-    return jsonify({"id": id, **updated_game}), 200
+    result = db.games.insert_one(new_game)
+    new_game['_id'] = str(result.inserted_id)  # Convertir ObjectId a string
+    return jsonify(new_game), 201
 
 
 @app.route('/games', methods=['GET'])
