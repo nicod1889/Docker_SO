@@ -22,19 +22,6 @@ def juegos():
     return render_template('juegos.html', games=games)
 
 
-#@app.route('/games', methods=['POST'])
-#def create_game():
-#    data = request.json
-#    game = {
-#        "name": data['name'],
-#        "players": data.get('players', {"min": 0, "max": 0}),
-#        "ageLimit": data.get('ageLimit', 0),
-#        "originCountry": data.get('originCountry', ""),
-#        "cost": data.get('cost', 0.0)
-#    }
-#    result = db.games.insert_one(game)
-#    game_id = str(result.inserted_id)
-#    return jsonify({"id": game_id, **game}), 200
 @app.route('/games', methods=['POST'])
 def create_game():
     data = request.get_json()
@@ -42,12 +29,12 @@ def create_game():
         '_id': data['id'],
         'name': data['name'],
         'players': data['players'],
-        'ageLimit': data['ageLimit'],
+        'ageLimits': data['ageLimits'],
         'originCountry': data['originCountry'],
         'cost': data['cost']
     }
     result = db.games.insert_one(new_game)
-    new_game['_id'] = str(result.inserted_id)  # Convertir ObjectId a string
+    new_game['_id'] = str(result.inserted_id)
     return jsonify(new_game), 201
 
 
@@ -60,7 +47,7 @@ def get_games():
             "id": str(game["_id"]),
             "name": game["name"],
             "players": game["players"],
-            "ageLimit": game["ageLimit"],
+            "ageLimits": game["ageLimits"],
             "originCountry": game["originCountry"],
             "cost": game["cost"]
         })
@@ -73,18 +60,19 @@ def update_game(id):
     updated_game = {
         "name": data.get('name'),
         "players": data.get('players'),
-        "ageLimit": data.get('ageLimit'),
+        "ageLimits": data.get('ageLimits'),
         "originCountry": data.get('originCountry'),
         "cost": data.get('cost')
     }
-    db.games.update_one({"_id": ObjectId(id)}, {"$set": updated_game})
+    result = db.games.update_one({"_id": id}, {"$set": updated_game})
+
     return jsonify({"id": id, **updated_game}), 200
 
 
 @app.route('/games/<id>', methods=['DELETE'])
 def delete_game(id):
     try:
-        result = db.games.delete_one({'_id': ObjectId(id)})
+        result = db.games.delete_one({'_id': id})
         if result.deleted_count == 0:
             return jsonify({"error": "Juego no encontrado"}), 404
         return jsonify({"message": "Juego eliminado exitosamente"}), 200

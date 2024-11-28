@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: app
     ports:
-      - "5000:5000" # Puerto para acceder a la aplicación Flask
+      - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/boardgames
     networks:
@@ -20,15 +20,15 @@ services:
     environment:
       MONGO_INITDB_DATABASE: boardgames
     ports:
-      - "27017:27017" # Puerto para acceder a MongoDB
+      - "27017:27017"
     volumes:
       - mongo-data:/data/db
-      - ./mongo-init:/docker-entrypoint-initdb.d  # Inicialización de datos
+      - ./mongo-init:/docker-entrypoint-initdb.d
     networks:
       - app-network
 
 volumes:
-  mongo-data:  # Define aquí el volumen persistente como mongo-data
+  mongo-data:
     driver: local
 
 networks:

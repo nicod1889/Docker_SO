@@ -30,7 +30,7 @@
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Jugadores (Min - Max)</th>
-                <th>Edad mínima</th>
+                <th>Edades (Min - Max)</th>
                 <th>País de Origen</th>
                 <th>Costo (USD)</th>
                 <th class="action">Acciones</th>
@@ -38,15 +38,15 @@
         </thead>
         <tbody>
             {% for game in games %}
-            <tr>
+            <tr data-id="{{ game._id }}">
                 <td>{{ game._id }}</td>
                 <td>{{ game.name }}</td>
                 <td>{{ game.players.min }} - {{ game.players.max }}</td>
-                <td>{{ game.ageLimit }}</td>
+                <td>{{ game.ageLimits.min }} - {{ game.ageLimits.max }}</td>
                 <td>{{ game.originCountry }}</td>
                 <td>${{ game.cost }}</td>
                 <td>
-                    <a onclick="openDialogEdit()" class="button-action"><i class="fa-regular fa-pen-to-square fa-lg"></i></a>
+                    <a onclick="openDialogEdit('{{ game._id }}')" class="button-action"><i class="fa-regular fa-pen-to-square fa-lg"></i></a>
                     <a onclick="openDialogDelete()" class="button-action"><i class="fa-solid fa-trash fa-lg"></i></a>
                 </td>
             </tr>
@@ -125,7 +125,7 @@
         </div>
         <div class="buttons">
             <button class="cancel-btn" onclick="closeDialogEdit()">Cerrar</button>
-            <button class="edit-btn" onclick="closeDialogEdit()">Editar</button>
+            <button class="edit-btn" onclick="editGame()">Editar</button>
         </div>
     </div>
 
@@ -151,9 +151,28 @@
             document.getElementById('overlay-create').style.display = 'none';
         }
         // EDITAR JUEGO DE MESA //
-        function openDialogEdit() {
+        function openDialogEdit(gameId) {
+            
+            const row = document.querySelector(`tr[data-id='${gameId}']`);
 
-            document.getElementById('edit-name').value = "Juego";
+            const name = row.querySelector("td:nth-child(2)").textContent;
+            const players = row.querySelector("td:nth-child(3)").textContent.split(" - ");
+            const minPlayers = players[0];
+            const maxPlayers = players[1];
+            const ageLimits = row.querySelector("td:nth-child(4)").textContent.split(" - ");
+            const minLimit = ageLimits[0];
+            const maxLimit = ageLimits[1];
+            const originCountry = row.querySelector("td:nth-child(5)").textContent;
+            const cost = row.querySelector("td:nth-child(6)").textContent.replace("$", "");
+            
+            document.getElementById("edit-id").value = gameId;
+            document.getElementById("edit-name").value = name;
+            document.getElementById("edit-pais").value = originCountry;
+            document.getElementById("edit-minPlayers").value = minPlayers;
+            document.getElementById("edit-maxPlayers").value = maxPlayers;
+            document.getElementById("edit-minAge").value = minLimit;
+            document.getElementById("edit-maxAge").value = maxLimit;
+            document.getElementById("edit-cost").value = cost;
 
             document.getElementById('dialog-edit').style.display = 'block';
             document.getElementById('overlay-edit').style.display = 'block';
@@ -181,7 +200,10 @@
                 min: parseInt(document.getElementById('minPlayers').value, 10) || 0,
                 max: parseInt(document.getElementById('maxPlayers').value, 10) || 0
             },
-            ageLimit: parseInt(document.getElementById('minAge').value, 10) || 0,
+            ageLimits: {
+                min: parseInt(document.getElementById('minAge').value, 10) || 0,
+                max: parseInt(document.getElementById('maxAge').value, 10) || 0
+            },
             cost: parseFloat(document.getElementById('cost').value) || 0
             };
 
@@ -199,6 +221,48 @@
                 console.error('Error al crear el juego:', error);
             });
         }
+
+        async function editGame() {
+            // Obtén los valores de los campos del formulario
+            const id = document.getElementById("edit-id").value;
+            const name = document.getElementById("edit-name").value;
+            const originCountry = document.getElementById("edit-pais").value;
+            const minPlayers = parseInt(document.getElementById("edit-minPlayers").value, 10);
+            const maxPlayers = parseInt(document.getElementById("edit-maxPlayers").value, 10);
+            const minAge = parseInt(document.getElementById("edit-minAge").value, 10);
+            const maxAge = parseInt(document.getElementById("edit-maxAge").value, 10);
+            const cost = parseFloat(document.getElementById("edit-cost").value);
+
+            // Crea el objeto de datos para enviar al servidor
+            const data = {
+                name,
+                players: { min: minPlayers, max: maxPlayers },
+                ageLimits: { min: minAge, max: maxAge },
+                originCountry,
+                cost
+            };
+
+            try {
+                const response = await fetch(`/games/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    closeDialogEdit();
+                    location.reload();
+                } else {
+                    const error = await response.json();
+                }
+            } catch (err) {
+                console.error('Error en la solicitud:', err);
+            }
+        }
+
     </script>
 
 </body>
