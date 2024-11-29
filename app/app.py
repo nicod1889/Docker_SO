@@ -5,13 +5,12 @@ import os
 
 app = Flask(__name__)
 
-# Configuración de MongoDB
+
 app.config["MONGO_URI"] = os.getenv("MONGO_URI", "mongodb://root:password@mongo:27017/boardgames")
 mongo = PyMongo(app)
 db = mongo.db
 
 
-# Página principal
 @app.route('/')
 def home():
     return render_template('index.html')

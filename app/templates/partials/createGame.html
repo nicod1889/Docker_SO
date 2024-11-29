@@ -1,0 +1,33 @@
+<!-- CREAR JUEGO DE MESA -->
+<div id="dialog-create" class="dialog">
+    <h1>Crear juego de mesa</h1>
+    <div class="form-container">
+        <label for="name">Id</label>
+        <input type="text" id="id">
+
+        <label for="name">Nombre</label>
+        <input type="text" id="name">
+
+        <label for="pais">País</label>
+        <input type="text" id="pais">
+
+        <label for="minPlayers">Jugadores mínimos</label>
+        <input type="number" id="minPlayers">
+
+        <label for="maxPlayers">Jugadores máximos</label>
+        <input type="number" id="maxPlayers">
+
+        <label for="minAge">Edad mínima</label>
+        <input type="number" id="minAge">
+
+        <label for="maxAge">Edad máxima</label>
+        <input type="number" id="maxAge">
+
+        <label for="cost">Costo</label>
+        <input type="number" id="cost">
+    </div>
+    <div class="buttons">
+        <button class="cancel-btn" onclick="closeDialogCreate()">Cerrar</button>
+        <button class="create-btn" onclick="createGame()">Crear</button>
+    </div>
+</div>

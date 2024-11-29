@@ -7,23 +7,15 @@
     <title>Juegos de mesa</title>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">LOGO HERE</div>
-        <nav class="nav">
-        <ul>
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/juegos">Juegos</a></li>
-            <li><a href="#">Acerca de</a></li>
-        </ul>
-        </nav>
-    </header>
+    {% include 'partials/header.html' %}
 
     <section class="hero">
         <div class="hero-content">
             <h1>JUEGOS DE <span class="highlight">MESA</span></h1>
-            <button class="cta">Contact Us</button>
+            <a href="/juegos"><button class="cta">Ver juegos</button></a>
         </div>
     </section>
 
+    {% include 'partials/footer.html' %}
 </body>
 </html>

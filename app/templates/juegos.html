@@ -5,55 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/juegos.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/juegos.js') }}"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <title>Lista de Juegos</title>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">LOGO HERE</div>
-        <nav class="nav">
-        <ul>
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/juegos">Juegos</a></li>
-            <li><a href="#">Acerca de</a></li>
-        </ul>
-        </nav>
-    </header>
+    {% include 'partials/header.html' %}
 
-    <section class="coso">
-    <div class="coso-content">
-    <h1>Lista de Juegos de Mesa</h1>
-    <button class="add-btn" onclick="openDialogCreate()">Agregar juego</button>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Jugadores (Min - Max)</th>
-                <th>Edades (Min - Max)</th>
-                <th>País de Origen</th>
-                <th>Costo (USD)</th>
-                <th class="action">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for game in games %}
-            <tr data-id="{{ game._id }}">
-                <td>{{ game._id }}</td>
-                <td>{{ game.name }}</td>
-                <td>{{ game.players.min }} - {{ game.players.max }}</td>
-                <td>{{ game.ageLimits.min }} - {{ game.ageLimits.max }}</td>
-                <td>{{ game.originCountry }}</td>
-                <td>${{ game.cost }}</td>
-                <td>
-                    <a onclick="openDialogEdit('{{ game._id }}')" class="button-action"><i class="fa-regular fa-pen-to-square fa-lg"></i></a>
-                    <a onclick="openDialogDelete()" class="button-action"><i class="fa-solid fa-trash fa-lg"></i></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    </div>
+    <section class="section">
+        <div class="section-content">
+            <h1>Lista de Juegos de Mesa</h1>
+            <button class="add-btn" onclick="openDialogCreate()">Agregar juego</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Jugadores (Min - Max)</th>
+                        <th>Edades (Min - Max)</th>
+                        <th>País de Origen</th>
+                        <th>Costo (USD)</th>
+                        <th class="action">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for game in games %}
+                    <tr data-id="{{ game._id }}">
+                        <td>{{ game._id }}</td>
+                        <td>{{ game.name }}</td>
+                        <td>{{ game.players.min }} - {{ game.players.max }}</td>
+                        <td>{{ game.ageLimits.min }} - {{ game.ageLimits.max }}</td>
+                        <td>{{ game.originCountry }}</td>
+                        <td>${{ game.cost }}</td>
+                        <td class="buttons">
+                            <a onclick="openDialogEdit('{{ game._id }}')" class="button-action edit"><i class="fa-regular fa-pen-to-square fa-lg"></i></a>
+                            <a onclick="openDialogDelete('{{ game._id }}')" class="button-action delete"><i class="fa-solid fa-trash fa-lg"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </section>
 
     <!-- FONDO -->
@@ -61,209 +54,13 @@
     <div id="overlay-delete" class="overlay" onclick="closeDialogDelete()"></div>
     <div id="overlay-create" class="overlay" onclick="closeDialogCreate()"></div>
 
-    <!-- CREAR JUEGO DE MESA -->
-    <div id="dialog-create" class="dialog">
-        <h1>Crear juego de mesa</h1>
-        <div class="form-container">
-            <label for="name">Id</label>
-            <input type="text" id="id">
+    {% include 'partials/createGame.html' %}
 
-            <label for="name">Nombre</label>
-            <input type="text" id="name">
-    
-            <label for="pais">País</label>
-            <input type="text" id="pais">
-    
-            <label for="minPlayers">Jugadores mínimos</label>
-            <input type="number" id="minPlayers">
-    
-            <label for="maxPlayers">Jugadores máximos</label>
-            <input type="number" id="maxPlayers">
-    
-            <label for="minAge">Edad mínima</label>
-            <input type="number" id="minAge">
-    
-            <label for="maxAge">Edad máxima</label>
-            <input type="number" id="maxAge">
-    
-            <label for="cost">Costo</label>
-            <input type="number" id="cost">
-        </div>
-        <div class="buttons">
-            <button class="cancel-btn" onclick="closeDialogCreate()">Cerrar</button>
-            <button class="create-btn" onclick="createGame()">Crear</button>
-        </div>
-    </div>
+    {% include 'partials/editGame.html' %}
 
-    <!-- EDITAR JUEGO DE MESA -->
-    <div id="dialog-edit" class="dialog">
-        <h1>Editar juego de mesa</h1>
-        <div class="form-container">
-            <label for="id">Id</label>
-            <input type="text" id="edit-id">
+    {% include 'partials/deleteGame.html' %}
 
-            <label for="name">Nombre</label>
-            <input type="text" id="edit-name">
-    
-            <label for="pais">País</label>
-            <input type="text" id="edit-pais">
-    
-            <label for="minPlayers">Jugadores mínimos</label>
-            <input type="number" id="edit-minPlayers">
-    
-            <label for="maxPlayers">Jugadores máximos</label>
-            <input type="number" id="edit-maxPlayers">
-    
-            <label for="minAge">Edad mínima</label>
-            <input type="number" id="edit-minAge">
-    
-            <label for="maxAge">Edad máxima</label>
-            <input type="number" id="edit-maxAge">
-    
-            <label for="cost">Costo</label>
-            <input type="number" id="edit-cost">
-        </div>
-        <div class="buttons">
-            <button class="cancel-btn" onclick="closeDialogEdit()">Cerrar</button>
-            <button class="edit-btn" onclick="editGame()">Editar</button>
-        </div>
-    </div>
-
-    <!-- ELIMINAR JUEGO DE MESA -->
-    <div id="dialog-delete" class="dialog">
-        <h1>Eliminar juego de mesa</h1>
-        <h4>¿Estás seguro que deseas eliminar el juego?</h4>
-        <div class="buttons">
-            <button class="cancel-btn" onclick="closeDialogDelete()">Cerrar</button>
-            <button class="delete-btn" onclick="deleteGame()">Eliminar</button>
-        </div>
-    </div>
-
-
-    <script>
-        // CREAR JUEGO DE MESA //
-        function openDialogCreate() {
-            document.getElementById('dialog-create').style.display = 'block';
-            document.getElementById('overlay-create').style.display = 'block';
-        }
-        function closeDialogCreate() {
-            document.getElementById('dialog-create').style.display = 'none';
-            document.getElementById('overlay-create').style.display = 'none';
-        }
-        // EDITAR JUEGO DE MESA //
-        function openDialogEdit(gameId) {
-            
-            const row = document.querySelector(`tr[data-id='${gameId}']`);
-
-            const name = row.querySelector("td:nth-child(2)").textContent;
-            const players = row.querySelector("td:nth-child(3)").textContent.split(" - ");
-            const minPlayers = players[0];
-            const maxPlayers = players[1];
-            const ageLimits = row.querySelector("td:nth-child(4)").textContent.split(" - ");
-            const minLimit = ageLimits[0];
-            const maxLimit = ageLimits[1];
-            const originCountry = row.querySelector("td:nth-child(5)").textContent;
-            const cost = row.querySelector("td:nth-child(6)").textContent.replace("$", "");
-            
-            document.getElementById("edit-id").value = gameId;
-            document.getElementById("edit-name").value = name;
-            document.getElementById("edit-pais").value = originCountry;
-            document.getElementById("edit-minPlayers").value = minPlayers;
-            document.getElementById("edit-maxPlayers").value = maxPlayers;
-            document.getElementById("edit-minAge").value = minLimit;
-            document.getElementById("edit-maxAge").value = maxLimit;
-            document.getElementById("edit-cost").value = cost;
-
-            document.getElementById('dialog-edit').style.display = 'block';
-            document.getElementById('overlay-edit').style.display = 'block';
-        }
-        function closeDialogEdit() {
-            document.getElementById('dialog-edit').style.display = 'none';
-            document.getElementById('overlay-edit').style.display = 'none';
-        }
-        // ELIMINAR JUEGO DE MESA //
-        function openDialogDelete() {
-            document.getElementById('dialog-delete').style.display = 'block';
-            document.getElementById('overlay-delete').style.display = 'block';
-        }
-        function closeDialogDelete() {
-            document.getElementById('dialog-delete').style.display = 'none';
-            document.getElementById('overlay-delete').style.display = 'none';
-        }
-
-        function createGame() {
-            const gameData = {
-            id: document.getElementById('id').value,
-            name: document.getElementById('name').value,
-            originCountry: document.getElementById('pais').value,
-            players: {
-                min: parseInt(document.getElementById('minPlayers').value, 10) || 0,
-                max: parseInt(document.getElementById('maxPlayers').value, 10) || 0
-            },
-            ageLimits: {
-                min: parseInt(document.getElementById('minAge').value, 10) || 0,
-                max: parseInt(document.getElementById('maxAge').value, 10) || 0
-            },
-            cost: parseFloat(document.getElementById('cost').value) || 0
-            };
-
-            fetch('/games', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(gameData)})
-            .then(response => {
-                if (!response.ok) return response.json().then(err => { throw err; });
-                return response.json();
-            })
-            .then(data => {
-                closeDialogCreate();
-                location.reload();
-            })
-            .catch(error => {
-                alert("ID REPITIDO");
-                console.error('Error al crear el juego:', error);
-            });
-        }
-
-        async function editGame() {
-            // Obtén los valores de los campos del formulario
-            const id = document.getElementById("edit-id").value;
-            const name = document.getElementById("edit-name").value;
-            const originCountry = document.getElementById("edit-pais").value;
-            const minPlayers = parseInt(document.getElementById("edit-minPlayers").value, 10);
-            const maxPlayers = parseInt(document.getElementById("edit-maxPlayers").value, 10);
-            const minAge = parseInt(document.getElementById("edit-minAge").value, 10);
-            const maxAge = parseInt(document.getElementById("edit-maxAge").value, 10);
-            const cost = parseFloat(document.getElementById("edit-cost").value);
-
-            // Crea el objeto de datos para enviar al servidor
-            const data = {
-                name,
-                players: { min: minPlayers, max: maxPlayers },
-                ageLimits: { min: minAge, max: maxAge },
-                originCountry,
-                cost
-            };
-
-            try {
-                const response = await fetch(`/games/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    closeDialogEdit();
-                    location.reload();
-                } else {
-                    const error = await response.json();
-                }
-            } catch (err) {
-                console.error('Error en la solicitud:', err);
-            }
-        }
-
-    </script>
+    {% include 'partials/footer.html' %}
 
 </body>
 </html>

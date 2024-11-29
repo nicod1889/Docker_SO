@@ -12,7 +12,8 @@ body {
     align-items: center;
 }
   
-  /* Header */
+
+/* ================================================== HEADER ================================================== */
 .header {
     display: flex;
     justify-content: space-between;
@@ -46,7 +47,8 @@ body {
     color: #00dfc4;
 }
   
-/* Hero Section */
+
+/* ================================================== HERO ================================================== */
 .hero {
     height: 100vh;
     display: flex;
@@ -95,4 +97,45 @@ body {
 .cta:hover {
     background: #00dfc4;
     color: #000;
+}
+
+
+/* ================================================== FOOTER ================================================== */
+.footer {
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.footer-logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.footer-logo small {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: #aaa;
+    padding-top: 10px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.footer-links a {
+    color: #aaa;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #00dfc4;
 }
