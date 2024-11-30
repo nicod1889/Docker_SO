@@ -11,9 +11,10 @@ function closeDialogCreate() {
 
 
 // ================================================== EDITAR JUEGO DE MESA ================================================== //
-function openDialogEdit(gameId) {
-    const row = document.querySelector(`tr[data-id="${gameId}"]`);
+function openDialogEdit(id) {
+    const row = document.querySelector(`tr[data-id="${id}"]`);
 
+    const gameId = row.querySelector("td:nth-child(1)").textContent;
     const name = row.querySelector("td:nth-child(2)").textContent;
     const players = row.querySelector("td:nth-child(3)").textContent.split(" - ");
     const minPlayers = players[0];
@@ -23,8 +24,9 @@ function openDialogEdit(gameId) {
     const maxLimit = ageLimits[1];
     const originCountry = row.querySelector("td:nth-child(5)").textContent;
     const cost = row.querySelector("td:nth-child(6)").textContent.replace("$", "");
-    
-    document.getElementById("edit-id").value = gameId;
+
+    document.getElementById("edit-id").value = id;
+    document.getElementById("edit-gameId").value = gameId;
     document.getElementById("edit-name").value = name;
     document.getElementById("edit-pais").value = originCountry;
     document.getElementById("edit-minPlayers").value = minPlayers;

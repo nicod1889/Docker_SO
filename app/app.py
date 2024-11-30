@@ -25,7 +25,7 @@ def juegos():
 def create_game():
     data = request.get_json()
     new_game = {
-        '_id': data['id'],
+        'gameId': data['gameId'],
         'name': data['name'],
         'players': data['players'],
         'ageLimits': data['ageLimits'],
@@ -44,6 +44,7 @@ def get_games():
     for game in games:
         result.append({
             "id": str(game["_id"]),
+            "gameId": game['gameId'],
             "name": game["name"],
             "players": game["players"],
             "ageLimits": game["ageLimits"],
@@ -57,13 +58,14 @@ def get_games():
 def update_game(id):
     data = request.json
     updated_game = {
+        "gameId": data.get('gameId'),
         "name": data.get('name'),
         "players": data.get('players'),
         "ageLimits": data.get('ageLimits'),
         "originCountry": data.get('originCountry'),
         "cost": data.get('cost')
     }
-    result = db.games.update_one({"_id": id}, {"$set": updated_game})
+    result = db.games.update_one({"_id": ObjectId(id)}, {"$set": updated_game})
 
     return jsonify({"id": id, **updated_game}), 200
 
@@ -71,7 +73,7 @@ def update_game(id):
 @app.route('/games/<id>', methods=['DELETE'])
 def delete_game(id):
     try:
-        result = db.games.delete_one({'_id': id})
+        result = db.games.delete_one({'_id': ObjectId(id)})
         if result.deleted_count == 0:
             return jsonify({"error": "Juego no encontrado"}), 404
         return jsonify({"message": "Juego eliminado exitosamente"}), 200

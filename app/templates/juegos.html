@@ -32,7 +32,7 @@
                 <tbody>
                     {% for game in games %}
                     <tr data-id="{{ game._id }}">
-                        <td>{{ game._id }}</td>
+                        <td>{{ game.gameId }}</td>
                         <td>{{ game.name }}</td>
                         <td>{{ game.players.min }} - {{ game.players.max }}</td>
                         <td>{{ game.ageLimits.min }} - {{ game.ageLimits.max }}</td>

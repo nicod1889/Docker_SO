@@ -1,7 +1,7 @@
 // ================================================== CREAR JUEGO DE MESA ================================================== //
 function createGame() {
     const gameData = {
-    id: document.getElementById('id').value,
+    gameId: document.getElementById('id').value,
     name: document.getElementById('name').value,
     originCountry: document.getElementById('pais').value,
     players: {
@@ -33,7 +33,8 @@ function createGame() {
 
 // ================================================== EDITAR JUEGO DE MESA ================================================== //
 async function editGame() {
-    const id = document.getElementById("edit-id").value;
+    const _id = document.getElementById("edit-id").value;
+    const gameId = document.getElementById("edit-gameId").value;
     const name = document.getElementById("edit-name").value;
     const originCountry = document.getElementById("edit-pais").value;
     const minPlayers = parseInt(document.getElementById("edit-minPlayers").value, 10);
@@ -43,6 +44,7 @@ async function editGame() {
     const cost = parseFloat(document.getElementById("edit-cost").value);
 
     const data = {
+        gameId,
         name,
         players: { min: minPlayers, max: maxPlayers },
         ageLimits: { min: minAge, max: maxAge },
@@ -51,7 +53,7 @@ async function editGame() {
     };
 
     try {
-        const response = await fetch(`/games/${id}`, {
+        const response = await fetch(`/games/${_id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

@@ -63,6 +63,7 @@ tr:hover {
 
 /* ====================================================  SECTION  ==================================================== */
 .section {
+    min-height: 100vh;
     padding-top: 50px;
     width: 80%;
     justify-content: center;
