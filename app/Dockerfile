@@ -1,5 +1,5 @@
 # Imagen de Python
-FROM python:3.9-apache 
+FROM python:3.9
 
 # Directorio de trabajo
 WORKDIR /usr/src/app
