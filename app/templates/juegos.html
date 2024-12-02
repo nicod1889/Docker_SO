@@ -16,7 +16,13 @@
     <section class="section">
         <div class="section-content">
             <h1>Lista de Juegos de Mesa</h1>
-            <button class="add-btn" onclick="openDialogCreate()">Agregar juego</button>
+            <div class="actions-container">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Buscar por nombre o país" oninput="filterGames()">
+                    <button onclick="filterGames()">Buscar</button>
+                </div>
+                <button class="add-btn" onclick="openDialogCreate()">Agregar juego</button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -29,7 +35,7 @@
                         <th class="action">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="games-table-body">
                     {% for game in games %}
                     <tr data-id="{{ game._id }}">
                         <td>{{ game.gameId }}</td>

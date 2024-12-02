@@ -94,3 +94,23 @@ function deleteGame() {
         })
         .catch(err => console.error('Error:', err));
 }
+
+
+// ================================================== FILTRAR JUEGO DE MESA ================================================== //
+function filterGames() {
+    const input = document.getElementById("search-input").value.toLowerCase();
+    const tableBody = document.getElementById("games-table-body");
+    const rows = tableBody.getElementsByTagName("tr");
+
+    for (let row of rows) {
+        const columns = row.getElementsByTagName("td");
+        const name = columns[1].textContent.toLowerCase();
+        const country = columns[4].textContent.toLowerCase();
+
+        if (name.includes(input) || country.includes(input)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    }
+}
