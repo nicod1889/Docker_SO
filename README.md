@@ -5,7 +5,31 @@ Este trabajo práctico consiste en desarrollar y desplegar una aplicación web q
 El proyecto utiliza Docker para gestionar los servicios y garantizar un entorno reproducible y consistente.
 
 ## Estructura del Proyecto
-📦 proyecto ├── 📂 app │ ├── Dockerfile │ ├── requirements.txt │ └── app.py ├── 📂 mongo-init │ └── init.js ├── docker-compose.yml └── README.md
+📦 proyecto 
+    ├── 📂 app 
+    │   ├── 📂 static
+    │   │   ├── 📂 css
+    │   │   │   ├── index.css
+    │   │   │   └── juegos.css
+    │   │   └── 📂 js
+    │   │       ├── juegos.js
+    │   │       └── utils.js
+    │   ├── 📂 templates
+    │   │   ├── 📂 partials
+    │   │   │   ├── createGame.html
+    │   │   │   ├── deleteGame.html
+    │   │   │   ├── editGame.html
+    │   │   │   ├── footer.html
+    │   │   │   └── header.html
+    │   │   ├── index.html
+    │   │   └── juegos.html
+    │   ├── Dockerfile
+    │   ├── requirements.txt 
+    │   └── app.py 
+    ├── 📂 mongo-init 
+    │   └── init.js 
+    ├── docker-compose.yml 
+    └── README.md
 
 ### Descripción de Carpetas
 
@@ -31,13 +55,13 @@ Para construir y levantar los contenedores, ejecutar:
 
 ```bash
 docker-compose up --build
-
+```
 ---
 
-Redes
+## Redes
 Ambos contenedores están conectados a la red app-network, facilitando la comunicación interna.
 
 ---
 
-Persistencia de Datos
+## Persistencia de Datos
 Los datos de MongoDB se almacenan en el volumen mongo-data, lo que garantiza que los datos no se pierdan al detener o reiniciar los contenedores.
