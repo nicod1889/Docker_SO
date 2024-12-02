@@ -5,6 +5,7 @@ Este trabajo práctico consiste en desarrollar y desplegar una aplicación web q
 El proyecto utiliza Docker para gestionar los servicios y garantizar un entorno reproducible y consistente.
 
 ## Estructura del Proyecto
+```plaintext
 📦 proyecto 
     ├── 📂 app 
     │   ├── 📂 static
@@ -30,6 +31,7 @@ El proyecto utiliza Docker para gestionar los servicios y garantizar un entorno 
     │   └── init.js 
     ├── docker-compose.yml 
     └── README.md
+```
 
 ### Descripción de Carpetas
 
