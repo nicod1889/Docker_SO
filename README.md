@@ -2,35 +2,35 @@
 
 Este trabajo práctico consiste en desarrollar y desplegar una aplicación web que incluye una interfaz en Python, servida por Apache HTTP Server, y una base de datos MongoDB para almacenar información sobre juegos de mesa. 
 
-El proyecto utiliza Docker para gestionar los servicios y garantizar un entorno reproducible y consistente.
+El proyecto utiliza Docker para gestionar los servicios y garantizar un entorno consistente.
 
 ## Estructura del Proyecto
 ```plaintext
 📦 proyecto 
-    ├── 📂 app 
-    │   ├── 📂 static
-    │   │   ├── 📂 css
-    │   │   │   ├── index.css
-    │   │   │   └── juegos.css
-    │   │   └── 📂 js
-    │   │       ├── juegos.js
-    │   │       └── utils.js
-    │   ├── 📂 templates
-    │   │   ├── 📂 partials
-    │   │   │   ├── createGame.html
-    │   │   │   ├── deleteGame.html
-    │   │   │   ├── editGame.html
-    │   │   │   ├── footer.html
-    │   │   │   └── header.html
-    │   │   ├── index.html
-    │   │   └── juegos.html
-    │   ├── Dockerfile
-    │   ├── requirements.txt 
-    │   └── app.py 
-    ├── 📂 mongo-init 
-    │   └── init.js 
-    ├── docker-compose.yml 
-    └── README.md
+├── 📂 app 
+│   ├── 📂 static
+│   │   ├── 📂 css
+│   │   │   ├── index.css
+│   │   │   └── juegos.css
+│   │   └── 📂 js
+│   │       ├── juegos.js
+│   │       └── utils.js
+│   ├── 📂 templates
+│   │   ├── 📂 partials
+│   │   │   ├── createGame.html
+│   │   │   ├── deleteGame.html
+│   │   │   ├── editGame.html
+│   │   │   ├── footer.html
+│   │   │   └── header.html
+│   │   ├── index.html
+│   │   └── juegos.html
+│   ├── Dockerfile
+│   ├── requirements.txt 
+│   └── app.py 
+├── 📂 mongo-init 
+│   └── init.js 
+├── docker-compose.yml 
+└── README.md
 ```
 
 ### Descripción de Carpetas

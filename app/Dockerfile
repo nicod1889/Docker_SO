@@ -1,17 +1,17 @@
-# Usa una imagen base de Python #
-FROM python:3.9
+# Imagen de Python
+FROM python:3.9-apache 
 
-# Establece el directorio de trabajo #
+# Directorio de trabajo
 WORKDIR /usr/src/app
 
-# Copia los archivos del proyecto #
+# Copia los archivos del proyecto
 COPY . .
 
-# Instala las dependencias #
+# Dependencias
 RUN pip install -r requirements.txt
 
-# Expone el puerto de Flask #
+# Expone el puerto de Flask
 EXPOSE 5000
 
-# Ejecuta la aplicación #
+# Ejecuta la aplicación
 CMD ["python", "app.py"]

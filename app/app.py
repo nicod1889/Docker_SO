@@ -6,11 +6,13 @@ import os
 app = Flask(__name__)
 
 
+## =================================================== CONECTAR DB =================================================== ##
 app.config["MONGO_URI"] = os.getenv("MONGO_URI", "mongodb://root:password@mongo:27017/boardgames")
 mongo = PyMongo(app)
 db = mongo.db
 
 
+## ====================================================== RUTAS ====================================================== ##
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -21,6 +23,7 @@ def juegos():
     return render_template('juegos.html', games=games)
 
 
+## ================================================== METODOS HTTP ================================================== ##
 @app.route('/games', methods=['POST'])
 def create_game():
     data = request.get_json()
@@ -35,7 +38,6 @@ def create_game():
     result = db.games.insert_one(new_game)
     new_game['_id'] = str(result.inserted_id)
     return jsonify(new_game), 201
-
 
 @app.route('/games', methods=['GET'])
 def get_games():
@@ -53,7 +55,6 @@ def get_games():
         })
     return jsonify(result), 200
 
-
 @app.route('/games/<id>', methods=['PUT'])
 def update_game(id):
     data = request.json
@@ -68,7 +69,6 @@ def update_game(id):
     result = db.games.update_one({"_id": ObjectId(id)}, {"$set": updated_game})
 
     return jsonify({"id": id, **updated_game}), 200
-
 
 @app.route('/games/<id>', methods=['DELETE'])
 def delete_game(id):
