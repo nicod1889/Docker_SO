@@ -3,15 +3,15 @@ db = db.getSiblingDB('boardgames');
 db.games.insertMany([
     {
         gameId: "1",
-        name: "Juego1",
-        players: { min: 2, max: 4 },
+        name: "Monopoly",
+        players: { min: 3, max: 8 },
         ageLimits: { min: 8, max: 12 },
         originCountry: "Alemania",
         cost: 25.99
     },
     {
         gameId: "2",
-        name: "Juego2",
+        name: "TEG",
         players: { min: 3, max: 6 },
         ageLimits: { min: 10, max: 18 },
         originCountry: "Estados Unidos",
@@ -19,7 +19,7 @@ db.games.insertMany([
     },
     {
         gameId: "3",
-        name: "Juego3",
+        name: "Crisis",
         players: { min: 1, max: 5 },
         ageLimits: { min: 7, max: 15 },
         originCountry: "Argentina",
@@ -27,7 +27,7 @@ db.games.insertMany([
     },
     {
         gameId: "4",
-        name: "Juego4",
+        name: "Clue",
         players: { min: 4, max: 8 },
         ageLimits: { min: 12, max: 20 },
         originCountry: "España",
@@ -35,7 +35,7 @@ db.games.insertMany([
     },
     {
         gameId: "5",
-        name: "Juego5",
+        name: "Life",
         players: { min: 2, max: 2 },
         ageLimits: { min: 10, max: 99 },
         originCountry: "Italia",
@@ -43,7 +43,7 @@ db.games.insertMany([
     },
     {
         gameId: "6",
-        name: "Juego6",
+        name: "Ajedrez",
         players: { min: 6, max: 12 },
         ageLimits: { min: 15, max: 25 },
         originCountry: "Francia",
@@ -51,7 +51,7 @@ db.games.insertMany([
     },
     {
         gameId: "7",
-        name: "Juego7",
+        name: "Damas",
         players: { min: 1, max: 1 },
         ageLimits: { min: 5, max: 10 },
         originCountry: "Japón",
@@ -59,7 +59,7 @@ db.games.insertMany([
     },
     {
         gameId: "8",
-        name: "Juego8",
+        name: "Ludo",
         players: { min: 2, max: 6 },
         ageLimits: { min: 8, max: 16 },
         originCountry: "Canadá",
@@ -67,7 +67,7 @@ db.games.insertMany([
     },
     {
         gameId: "9",
-        name: "Juego9",
+        name: "Backgammon",
         players: { min: 3, max: 10 },
         ageLimits: { min: 18, max: 50 },
         originCountry: "Brasil",
@@ -75,7 +75,7 @@ db.games.insertMany([
     },
     {
         gameId: "10",
-        name: "Juego10",
+        name: "El Estanciero",
         players: { min: 4, max: 8 },
         ageLimits: { min: 12, max: 18 },
         originCountry: "México",
@@ -83,7 +83,7 @@ db.games.insertMany([
     },
     {
         gameId: "11",
-        name: "Juego11",
+        name: "Quién Es Quién",
         players: { min: 5, max: 10 },
         ageLimits: { min: 20, max: 40 },
         originCountry: "Reino Unido",
@@ -91,7 +91,7 @@ db.games.insertMany([
     },
     {
         gameId: "12",
-        name: "Juego12",
+        name: "Truco",
         players: { min: 2, max: 4 },
         ageLimits: { min: 6, max: 12 },
         originCountry: "Australia",
@@ -99,7 +99,7 @@ db.games.insertMany([
     },
     {
         gameId: "13",
-        name: "Juego13",
+        name: "Dominó",
         players: { min: 3, max: 7 },
         ageLimits: { min: 10, max: 20 },
         originCountry: "India",
@@ -107,7 +107,7 @@ db.games.insertMany([
     },
     {
         gameId: "14",
-        name: "Juego14",
+        name: "Jenga",
         players: { min: 4, max: 10 },
         ageLimits: { min: 14, max: 28 },
         originCountry: "China",
@@ -115,7 +115,7 @@ db.games.insertMany([
     },
     {
         gameId: "15",
-        name: "Juego15",
+        name: "Carrera de Mente",
         players: { min: 2, max: 5 },
         ageLimits: { min: 8, max: 16 },
         originCountry: "Sudáfrica",
