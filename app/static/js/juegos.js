@@ -1,19 +1,31 @@
 // ================================================== CREAR JUEGO DE MESA ================================================== //
 function createGame() {
-    const gameData = {
+
+    const minPlayers = parseInt(document.getElementById('minPlayers').value, 10) || 0;
+    const maxPlayers = parseInt(document.getElementById('maxPlayers').value, 10) || 0;
+    const minAge = parseInt(document.getElementById('minAge').value, 10) || 0;
+    const maxAge = parseInt(document.getElementById('maxAge').value, 10) || 0;
+
+
+// Validaciones
+if (maxPlayers < minPlayers) {
+    alert("El número máximo de jugadores no puede ser menor que el mínimo.");
+    return;
+}
+if (maxAge < minAge) {
+    alert("La edad máxima no puede ser menor que la edad mínima.");
+    return;
+}
+
+// Datos del juego
+const gameData = {
     gameId: document.getElementById('id').value,
     name: document.getElementById('name').value,
     originCountry: document.getElementById('pais').value,
-    players: {
-        min: parseInt(document.getElementById('minPlayers').value, 10) || 0,
-        max: parseInt(document.getElementById('maxPlayers').value, 10) || 0
-    },
-    ageLimits: {
-        min: parseInt(document.getElementById('minAge').value, 10) || 0,
-        max: parseInt(document.getElementById('maxAge').value, 10) || 0
-    },
+    players: { min: minPlayers, max: maxPlayers },
+    ageLimits: { min: minAge, max: maxAge },
     cost: parseFloat(document.getElementById('cost').value) || 0
-    };
+};
 
     fetch('/games', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(gameData)})
     .then(response => {
@@ -42,6 +54,17 @@ async function editGame() {
     const minAge = parseInt(document.getElementById("edit-minAge").value, 10);
     const maxAge = parseInt(document.getElementById("edit-maxAge").value, 10);
     const cost = parseFloat(document.getElementById("edit-cost").value);
+
+    // Validaciones
+    if (maxPlayers < minPlayers) {
+        alert("El número máximo de jugadores no puede ser menor que el mínimo.");
+        return;
+    }
+    if (maxAge < minAge) {
+        alert("La edad máxima no puede ser menor que la edad mínima.");
+        return;
+    }
+
 
     const data = {
         gameId,
