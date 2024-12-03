@@ -57,3 +57,12 @@ function closeDialogDelete() {
     document.getElementById('dialog-delete').style.display = 'none';
     document.getElementById('overlay-delete').style.display = 'none';
 }
+
+
+// ================================================== ALERT ================================================== //
+function showToast(message) {
+    const toast = document.getElementById('customToast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => {toast.style.display = 'none';}, 3000);
+}

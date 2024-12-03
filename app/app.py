@@ -35,6 +35,8 @@ def create_game():
         'originCountry': data['originCountry'],
         'cost': data['cost']
     }
+    if db.games.find_one({"gameId": data.get("gameId")}):
+        return jsonify({"error": "errorgameId"}), 400
     result = db.games.insert_one(new_game)
     new_game['_id'] = str(result.inserted_id)
     return jsonify(new_game), 201
@@ -66,6 +68,10 @@ def update_game(id):
         "originCountry": data.get('originCountry'),
         "cost": data.get('cost')
     }
+    existing_game = db.games.find_one({"gameId": data.get("gameId"), "_id": {"$ne": ObjectId(id)}})
+    if existing_game:
+        return jsonify({"error": "errorgameId"}), 400
+
     result = db.games.update_one({"_id": ObjectId(id)}, {"$set": updated_game})
 
     return jsonify({"id": id, **updated_game}), 200

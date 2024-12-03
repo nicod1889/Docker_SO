@@ -1,31 +1,36 @@
 // ================================================== CREAR JUEGO DE MESA ================================================== //
 function createGame() {
 
-    const minPlayers = parseInt(document.getElementById('minPlayers').value, 10) || 0;
-    const maxPlayers = parseInt(document.getElementById('maxPlayers').value, 10) || 0;
-    const minAge = parseInt(document.getElementById('minAge').value, 10) || 0;
-    const maxAge = parseInt(document.getElementById('maxAge').value, 10) || 0;
+    const gameId = document.getElementById("gameId").value;
+    const name = document.getElementById("name").value;
+    const originCountry = document.getElementById("pais").value;
+    const minPlayers = parseInt(document.getElementById("minPlayers").value, 10);
+    const maxPlayers = parseInt(document.getElementById("maxPlayers").value, 10);
+    const minAge = parseInt(document.getElementById("minAge").value, 10);
+    const maxAge = parseInt(document.getElementById("maxAge").value, 10);
+    const cost = parseFloat(document.getElementById("cost").value);
 
+    if (!gameId || !name || !originCountry || !minPlayers || !maxPlayers || !minAge || !maxAge || !cost) {
+        showToast('Verifique que todos los campos estén completos.', "error");
+        return;
+    }
+    if (maxPlayers < minPlayers) {
+        showToast("El número máximo de jugadores no puede ser menor que el mínimo.", "error");
+        return;
+    }
+    if (maxAge < minAge) {
+        showToast("La edad máxima no puede ser menor que la edad mínima.", "error");
+        return;
+    }
 
-// Validaciones
-if (maxPlayers < minPlayers) {
-    alert("El número máximo de jugadores no puede ser menor que el mínimo.");
-    return;
-}
-if (maxAge < minAge) {
-    alert("La edad máxima no puede ser menor que la edad mínima.");
-    return;
-}
-
-// Datos del juego
-const gameData = {
-    gameId: document.getElementById('id').value,
-    name: document.getElementById('name').value,
-    originCountry: document.getElementById('pais').value,
-    players: { min: minPlayers, max: maxPlayers },
-    ageLimits: { min: minAge, max: maxAge },
-    cost: parseFloat(document.getElementById('cost').value) || 0
-};
+    const gameData = {
+        gameId,
+        name,
+        players: { min: minPlayers, max: maxPlayers },
+        ageLimits: { min: minAge, max: maxAge },
+        originCountry,
+        cost
+    };
 
     fetch('/games', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(gameData)})
     .then(response => {
@@ -37,8 +42,12 @@ const gameData = {
         location.reload();
     })
     .catch(error => {
-        alert("ID REPITIDO");
-        console.error('Error al crear el juego:', error);
+        if (error.error === 'errorgameId') {
+            showToast("El ID del juego ya está ocupado. Por favor, elija otro.", "error");
+        } else {
+            console.error('Error al crear el juego:', error);
+            showToast("Ocurrió un error al crear el juego. Inténtalo nuevamente.", "error");
+        }
     });
 }
 
@@ -55,18 +64,20 @@ async function editGame() {
     const maxAge = parseInt(document.getElementById("edit-maxAge").value, 10);
     const cost = parseFloat(document.getElementById("edit-cost").value);
 
-    // Validaciones
+    if (!gameId || !name || !originCountry || !minPlayers || !maxPlayers || !minAge || !maxAge || !cost) {
+        showToast('Verifique que todos los campos estén completos.', 'error');
+        return;
+    }
     if (maxPlayers < minPlayers) {
-        alert("El número máximo de jugadores no puede ser menor que el mínimo.");
+        showToast("El número máximo de jugadores no puede ser menor que el mínimo.", 'error');
         return;
     }
     if (maxAge < minAge) {
-        alert("La edad máxima no puede ser menor que la edad mínima.");
+        showToast("La edad máxima no puede ser menor que la edad mínima.", 'error');
         return;
     }
 
-
-    const data = {
+    const gameData = {
         gameId,
         name,
         players: { min: minPlayers, max: maxPlayers },
@@ -76,13 +87,7 @@ async function editGame() {
     };
 
     try {
-        const response = await fetch(`/games/${_id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+        const response = await fetch(`/games/${_id}`, {method: 'PUT', headers: {'Content-Type': 'application/json'},body: JSON.stringify(gameData)});
 
         if (response.ok) {
             const result = await response.json();
@@ -90,9 +95,11 @@ async function editGame() {
             location.reload();
         } else {
             const error = await response.json();
+            showToast("El ID del juego ya está ocupado. Por favor, elija otro.", "error");
         }
     } catch (err) {
-        console.error('Error en la solicitud:', err);
+        console.error('Error al crear el juego:', error);
+        showToast("Ocurrió un error al crear el juego. Inténtalo nuevamente.", "error");
     }
 }
 
