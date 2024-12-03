@@ -17,6 +17,7 @@ El proyecto utiliza Docker para gestionar los servicios y garantizar un entorno 
 │   │       └── utils.js
 │   ├── 📂 templates
 │   │   ├── 📂 partials
+│   │   │   ├── alert.html
 │   │   │   ├── createGame.html
 │   │   │   ├── deleteGame.html
 │   │   │   ├── editGame.html
