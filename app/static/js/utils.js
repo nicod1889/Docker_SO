@@ -7,6 +7,7 @@ function openDialogCreate() {
 function closeDialogCreate() {
     document.getElementById('dialog-create').style.display = 'none';
     document.getElementById('overlay-create').style.display = 'none';
+    document.getElementById('form-create').reset();
 }
 
 
